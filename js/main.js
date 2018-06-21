@@ -53,7 +53,7 @@ function loadFiles() {
             }
         });
 
-	$.ajax({url: 'js/version.js', async: false, dataType: 'script'});
+        $.ajax({url: 'js/version.js', async: false, dataType: 'script'});
         $.ajax({url: 'js/settings.js', async: false, dataType: 'script'}).done(function () {
             loadSettings();
 			userEnc='';
@@ -103,9 +103,9 @@ function loadFiles() {
             $.ajax({url: 'js/switches.js', async: false, dataType: 'script'});
             $.ajax({url: 'js/blocks.js', async: false, dataType: 'script'});
             $.ajax({url: 'js/graphs.js', async: false, dataType: 'script'});
-	    $.ajax({url: 'js/login.js', async: false, dataType: 'script'});
+            $.ajax({url: 'js/login.js', async: false, dataType: 'script'});
 
-	    sessionValid();
+            sessionValid();
 
             if (typeof(settings['gm_api']) !== 'undefined' && settings['gm_api'] !== '' && settings['gm_api'] !== 0) {
                 $.ajax({
@@ -154,7 +154,7 @@ function onLoad() {
         $('.clock').html(moment().locale(settings['language']).format(settings['hide_seconds'] ? settings['shorttime'] : settings['longtime']));
         $('.date').html(moment().locale(settings['language']).format(settings['longdate']));
         $('.weekday').html(moment().locale(settings['language']).format(settings['weekday']));
-    }, 1000);
+    }, settings['hide_seconds'] ? 30000 : 1000);
 
     enableRefresh();
 
@@ -1275,11 +1275,10 @@ function getDevicesTmr() {
 }
 
 function enableRefresh() {
-//only call once
-        setInterval(function () {
-            getDevicesTmr();
-        }, (settings['domoticz_refresh'] * 1000));
-
+    //only call once
+    setInterval(function () {
+        getDevicesTmr();
+    }, (settings['domoticz_refresh'] * 1000));
 }
 
 function getAutoAppendSelector(device) {
