@@ -1,14 +1,13 @@
 {
-"version": "2.3.8",
+"version": "2.4.6",
 "branch": "beta",
-"last_changes": "Fix scene switching, fix for older browsers breaking on const keyword",
+"last_changes": "Small change in garbage name mapping rules to support Dordrecht",
 "changelog" : {
-            "2.3.7": "Fix voor redirect in Kiosk Browser",
-            "2.3.6": "Added openpopupOn and openpopupOff",
-            "2.3.5": "Fix for Humidity-only block",
-            "2.3.4": "Rewrite dashticz version checker. Added Domoticz version in info page. Fix for encoding levelnames in selector.",
-            "2.3.3": "Save settings: Fix for writing text settings starting with a number.",
-            "2.3.2": "Fix for checkbox settings. Fix for color picker of RGB devices.",
-            "2.3.1": "Spotify update. Spotify: Add shuffle button. Fix for frequent calling enableRefresh"
+            "2.4.5": "Fix for cross origin issues with php",
+            "2.4.4": "Fix HVC garbage data",
+            "2.4.3": "Use local garbage.php module",
+            "2.4.2": "Merge PHP OV Module into Dashticz",
+            "2.4.1": "Merge PHP TV Module into Dashticz",
+            "2.4.0": "Upgrade to fontawesome 5.0.13"
             }
 }

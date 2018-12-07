@@ -11,6 +11,10 @@ settingList['general']['loginEnabled'] = {};
 settingList['general']['loginEnabled']['title'] = language.settings.general.loginEnabled;
 settingList['general']['loginEnabled']['type'] = 'checkbox';
 
+settingList['general']['disable_update_check'] = {};
+settingList['general']['disable_update_check']['title'] = language.settings.general.disable_update_check;
+settingList['general']['disable_update_check']['type'] = 'checkbox';
+
 settingList['general']['user_name'] = {};
 settingList['general']['user_name']['title'] = language.settings.general.user_name;
 settingList['general']['user_name']['type'] = 'text';
@@ -67,6 +71,14 @@ settingList['general']['default_news_url']['type'] = 'text';
 settingList['general']['news_scroll_after'] = {};
 settingList['general']['news_scroll_after']['title'] = language.settings.general.news_scroll_after;
 settingList['general']['news_scroll_after']['type'] = 'text';
+
+settingList['general']['default_cors_url'] = {};
+settingList['general']['default_cors_url']['title'] = language.settings.general.default_cors_url;
+settingList['general']['default_cors_url']['type'] = 'text';
+
+settingList['general']['dashticz_php_path'] = {};
+settingList['general']['dashticz_php_path']['title'] = language.settings.general.dashticz_php_path;
+settingList['general']['dashticz_php_path']['type'] = 'text';
 
 /*
 settingList['general']['hide_off_button'] = {}
@@ -125,6 +137,10 @@ settingList['screen']['standard_graph']['options'] = {};
 settingList['screen']['standard_graph']['options']['hours'] = language.graph.last_hours;
 settingList['screen']['standard_graph']['options']['month'] = language.graph.last_month;
 settingList['screen']['standard_graph']['options']['day'] = language.graph.today;
+
+settingList['screen']['security_button_icons'] = {};
+settingList['screen']['security_button_icons']['title'] = language.settings.screen.security_button_icons;
+settingList['screen']['security_button_icons']['type'] = 'checkbox';
 
 settingList['screen']['edit_mode'] = {};
 settingList['screen']['edit_mode']['title'] = language.settings.screen.edit_mode;
@@ -193,6 +209,12 @@ settingList['localize']['calendarurl'] = {};
 settingList['localize']['calendarurl']['title'] = language.settings.localize.calendarurl;
 settingList['localize']['calendarurl']['type'] = 'text';
 
+/* Not used anymore
+settingList['localize']['calendar_parse_localy'] = {};
+settingList['localize']['calendar_parse_localy']['title'] = language.settings.localize.calendar_parse_localy;
+settingList['localize']['calendar_parse_localy']['type'] = 'checkbox';
+*/
+
 settingList['localize']['hide_seconds'] = {};
 settingList['localize']['hide_seconds']['title'] = language.settings.localize.hide_seconds;
 settingList['localize']['hide_seconds']['type'] = 'checkbox';
@@ -252,6 +274,26 @@ settingList['weather']['wu_name']['type'] = 'text';
 settingList['weather']['wu_country'] = {};
 settingList['weather']['wu_country']['title'] = language.settings.weather.wu_country;
 settingList['weather']['wu_country']['type'] = 'text';
+
+settingList['weather']['owm_api'] = {};
+settingList['weather']['owm_api']['title'] = language.settings.weather.owm_api;
+settingList['weather']['owm_api']['type'] = 'text';
+
+settingList['weather']['owm_city'] = {};
+settingList['weather']['owm_city']['title'] = language.settings.weather.owm_city;
+settingList['weather']['owm_city']['type'] = 'text';
+
+settingList['weather']['owm_name'] = {};
+settingList['weather']['owm_name']['title'] = language.settings.weather.owm_name;
+settingList['weather']['owm_name']['type'] = 'text';
+
+settingList['weather']['owm_country'] = {};
+settingList['weather']['owm_country']['title'] = language.settings.weather.owm_country;
+settingList['weather']['owm_country']['type'] = 'text';
+
+settingList['weather']['owm_cnt'] = {};
+settingList['weather']['owm_cnt']['title'] = language.settings.weather.owm_cnt;
+settingList['weather']['owm_cnt']['type'] = 'text';
 
 settingList['weather']['idx_moonpicture'] = {};
 settingList['weather']['idx_moonpicture']['title'] = language.settings.weather.idx_moonpicture;
@@ -425,9 +467,6 @@ settingList['about']['about_text3']['title'] = 'Do you appreciate my work and wa
 settingList['about']['about_text4'] = {};
 settingList['about']['about_text4']['title'] = 'If you have any issues you can report them in our community thread <a href="https://www.domoticz.com/forum/viewtopic.php?f=67&t=17427" target="_blank">Bug report</a>.'
 
-settingList['about']['about_text5'] = {};
-settingList['about']['about_text5']['title'] = domoversion + dzVents + python;
-
 var settings = {};
 doneSettings = false;
 if (typeof(Storage) !== "undefined") {
@@ -453,15 +492,22 @@ if (typeof(settings['shorttime']) === 'undefined') settings['shorttime'] = 'HH:m
 if (typeof(settings['longtime']) === 'undefined') settings['longtime'] = 'HH:mm:ss';
 if (typeof(settings['weekday']) === 'undefined') settings['weekday'] = 'dddd';
 if (typeof(settings['calendarlanguage']) === 'undefined') settings['calendarlanguage'] = 'en_US';
+//if (typeof(settings['calendar_parse_localy']) === 'undefined') settings['calendar_parse_localy'] = 0;
 if (typeof(settings['domoticz_ip']) === 'undefined') settings['domoticz_ip'] = 'http://192.168.1.10:1407';
 if (typeof(settings['user_name']) === 'undefined') settings['user_name'] = '';
 if (typeof(settings['pass_word']) === 'undefined') settings['pass_word'] = '';
 if (typeof(settings['app_title']) === 'undefined') settings['app_title'] = 'Dashticz';
 if (typeof(settings['domoticz_refresh']) === 'undefined') settings['domoticz_refresh'] = 5;
 if (typeof(settings['dashticz_refresh']) === 'undefined') settings['dashticz_refresh'] = 60;
+if (typeof(settings['default_cors_url']) === 'undefined') settings['default_cors_url'] = 'https://cors-anywhere.herokuapp.com/';
+if (typeof(settings['dashticz_php_path']) === 'undefined') settings['dashticz_php_path'] = './vendor/dashticz/';
 if (typeof(settings['wu_api']) === 'undefined') settings['wu_api'] = '';
 if (typeof(settings['wu_country']) === 'undefined') settings['wu_country'] = 'NL';
 if (typeof(settings['wu_city']) === 'undefined') settings['wu_city'] = 'Amsterdam';
+if (typeof(settings['owm_api']) === 'undefined') settings['owm_api'] = '';
+if (typeof(settings['owm_country']) === 'undefined') settings['owm_country'] = 'de';
+if (typeof(settings['owm_city']) === 'undefined') settings['owm_city'] = 'Mainaschaff';
+if (typeof(settings['owm_cnt']) === 'undefined') settings['owm_cnt'] = 4;
 if (typeof(settings['boss_stationclock']) === 'undefined') settings['boss_stationclock'] = 'RedBoss';
 if (typeof(settings['use_fahrenheit']) === 'undefined') settings['use_fahrenheit'] = 0;
 if (typeof(settings['use_beaufort']) === 'undefined') settings['use_beaufort'] = 0;
@@ -514,9 +560,9 @@ if (typeof(settings['garbage']) === 'undefined') {
 }
 if (typeof(settings['garbage_mapping']) === 'undefined') {
     settings['garbage_mapping'] = {
+        rest: ['grof', 'grey', 'rest', 'grijs','grijze'],
         gft: ['gft', 'tuin', 'refuse bin', 'green', 'groen', 'Biodégradables', 'snoei'],
         pmd: ['plastic', 'pmd', 'verpakking', 'kunststof', 'valorlux'],
-        rest: ['grof', 'grey', 'rest', 'grijs','grijze'],
         papier: ['papier', 'blauw', 'blue', 'recycling bin collection'],
         kca: ['chemisch', 'kca','kga'],
         brown: ['brown', 'verre'],
@@ -535,6 +581,8 @@ if (typeof(settings['garbage_use_cors_prefix']) === 'undefined') settings['garba
 if (typeof(settings['theme']) === 'undefined') settings['theme'] = 'default';
 if (typeof(settings['background_image']) === 'undefined') settings['background_image'] = 'img/bg2.jpg';
 if (typeof(settings['loginEnabled']) === 'undefined') settings['loginEnabled'] = 0;
+if (typeof(settings['security_button_icons']) === 'undefined') settings['security_button_icons'] = 0;
+if (typeof(settings['disable_update_check']) === 'undefined') settings['disable_update_check'] = 0;
 
 //The Config settings for all checkbox items will be converted to a number
 for (var s in settingList){
@@ -547,6 +595,22 @@ for (var s in settingList){
 
 var _TEMP_SYMBOL = '°C';
 if (settings['use_fahrenheit'] === 1) _TEMP_SYMBOL = '°F';
+
+var phpversion = '<br>PHP not installed!!';
+
+$.ajax({
+    url: settings['dashticz_php_path']+'info.php?get=phpversion',
+    async: false,
+    dataType: 'json',
+    success: function (data) {
+        phpversion = '<br> PHP version: ' + data;
+                }
+});
+
+settingList['about']['about_text5'] = {};
+settingList['about']['about_text5']['title'] = domoversion + dzVents + python + phpversion;
+
+
 
 function loadSettings() {
 
@@ -674,7 +738,7 @@ function saveSettings() {
             html += '</div><div class="modal-footer"><button onClick="window.location.href=window.location.href;" type="button" class="btn btn-primary" data-dismiss="modal">' + language.settings.close_reload + '</button></div>';
             html += '</div>';
             html += '</div>';
-            html += '</div><div class="settingsoutput" data-toggle="modal" data-target="#settingsoutput"><em class="fa fa-cog" /><div>';
+            html += '</div><div class="settingsoutput" data-toggle="modal" data-target="#settingsoutput"><em class="fas fa-cog" /><div>';
 
             $('body').append(html);
             setTimeout(function () {

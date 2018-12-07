@@ -27,6 +27,7 @@
     },
     "misc": {
         "download": "Klikk her for å laste ned",
+        "enter_pincode": "Enter pin code",
         "last_update": "Siste oppdatering",
         "loading": "Laster...",
         "mediaplayer_nothing_playing": "Ingenting spilles akkurat nå",
@@ -37,7 +38,8 @@
         "spotify_back_to_playlist": "Tilbake til spillelister",
         "spotify_select_device": "Velg enhet",
         "spotify_select_playlist": "Velg spilleliste",
-        "value": "Verdi"
+        "value": "Verdi",
+        "wrong_code": "Wrong pin code"
     },
     "settings": {
         "about": {
@@ -75,6 +77,7 @@
             "default_news_url": "Standard nyhetsadresse",
             "disable_googleanalytics": "Deaktiver Google Analytics",
             "disable_googleanalytics_help": "Brukes kun for utvikler til å spore mengden brukere og hvilken enhet du bruker til finetuning Dashticz.",
+            "disable_update_check": "Disable update check",
             "domoticz_ip": "Domoticz URL",
             "domoticz_ip_help": "Skriv inn Domoticz url, for eksempel http:\/\/192.168.1.1:8080. Du kan også legge til brukernavn og passord, for eksempel http:\/\/brukernavn:passord@192.168.1.1:8080",
             "domoticz_refresh": "Oppdater Domoticz (sekunder)",
@@ -94,7 +97,9 @@
             "use_favorites": "Bruk bare favoritt enheter",
             "use_favorites_help": "Brukes kun når du bruker automatisk posisjonering",
             "user_name": "Brukernavn",
-            "user_name_help": "Sett Dashticz brukernavn og passord"
+            "user_name_help": "Sett Dashticz brukernavn og passord",
+            "default_cors_url": "Default CORS URL",
+            "dashticz_php_path": "Dashticz PHP Path"
         },
         "infosave": "Som standard lagres innstillingene i nettleseren din. Ulempen med denne metoden er at den bare vil fungere i din nåværende nettleser. Hvis det ikke er et problem, kan du fortsette. Ellers kopier koden nedenfor til CONFIG.JS for å holde innstillingene over alle nettlesere og enheter.",
         "localize": {
@@ -157,6 +162,7 @@
             "dashticz_themes_help": "Angi navnet på temaet (f.eks. Hvitt) temaet vil være skrevet over av custom.css",
             "edit_mode": "Gå til redigeringsmodus",
             "hide_topbar": "Skjul toppbar",
+            "security_button_icons": "Icons instead of text on security switch",
             "slide_effect": "Skyve effekt",
             "standard_graph": "Standard graf",
             "standby_after": "Standby etter (minutter, 0 = aldri)",
@@ -174,11 +180,23 @@
             "wu_api": "Wunderground API-Nøkkel",
             "wu_city": "Wunderground Station (Byen eller Kode)",
             "wu_country": "Wunderground Land",
-            "wu_name": "Visningsnavn"
+            "wu_name": "Visningsnavn",
+            "owm_api": "Open Weather Map API-Nøkkel",
+            "owm_city": "Open Weather Map Station (Byen eller Kode)",
+            "owm_cnt": "Open Weather Map Station prognose telle (4 - 40)",
+            "owm_country": "Open Weather Map Land",
+            "owm_name": "Visningsnavn Open Weather Map"
         }
     },
     "switches": {
+        "state_armaway": "Arm Away",
+        "state_armedaway": "Armed Away",
+        "state_armedhome": "Armed Home",
+        "state_armhome": "Arm Home",
         "state_closed": "LUKKET",
+        "state_disarm": "Disarm",
+        "state_disarmed": "Disarmed",
+        "state_locked": "LOCKED",
         "state_movement": "BEVEGELSE",
         "state_nomovement": "Ingen bevegelse",
         "state_nosmoke": "Ingen Røyk",
@@ -186,7 +204,8 @@
         "state_on": "PÅ",
         "state_open": "ÅPEN",
         "state_smoke": "RØYK DETEKTERT",
-        "state_switch": "Bryter"
+        "state_switch": "Bryter",
+        "state_unlocked": "UNLOCKED"
     },
     "weekdays": {
         "entire_day": "Hele dagen",
