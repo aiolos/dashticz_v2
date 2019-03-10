@@ -264,7 +264,7 @@ function setClockDateWeekday() {
 }
 
 function toSlide(num) {
-    if (typeof(myswiper) !== 'undefined') myswiper.slideTo(num, 1000, false);
+    if (typeof(myswiper) !== 'undefined') myswiper.slideTo(num, 1000, true);
 }
 
 
@@ -436,7 +436,19 @@ function startSwiper() {
                         paginationClickable: true,
                         loop: false,
                         effect: settings['slide_effect'],
-                        keyboardControl: true
+                        keyboardControl: true,
+                        onSlideChangeStart: function (swiper) {
+                          $('.slide').removeClass('selectedbutton');
+                        },
+                        onSlideChangeEnd: function (swiper) {
+                    //after Event use it for your purpose
+                          $('.slide'+(1+swiper.activeIndex)).addClass('selectedbutton');
+                        },
+                        onInit: function() {
+                          $('.slide1').addClass('selectedbutton');                            
+                        }
+
+                        
                     });
 
                 }, 2000);
@@ -691,9 +703,7 @@ function triggerChange(idx, value, device) {
         if (typeof(blocks[idx]) !== 'undefined' && typeof(blocks[idx]['flash']) !=='undefined') {
             var flash_value = blocks[idx]['flash'];
             if(flash_value>0) {
-              var cur_bc = $('div.block_'+idx).css('background-color');
-              var flash_color = settings['blink_color'];
-              $('div.block_'+idx).animate({'background-color': 'rgba( ' + flash_color +')'}, flash_value).animate({'background-color': cur_bc},flash_value);
+              $('.block_'+idx).stop().addClass('blockchange',flash_value).removeClass('blockchange',flash_value);      
             }
         }
         
@@ -816,8 +826,13 @@ function loadButton(b, button) {
     var key = b;
     if (typeof(button.key) !== 'undefined') key = button.key;
     
-
-    html = '<div class="col-xs-' + width + (buttonIsClickable(button) ? ' hover ' : ' ') +  ' transbg buttons-' + key + '" data-id="buttons.' + key + '">';
+    var slideToext ='';
+    
+    if (typeof(button.slide) !== 'undefined') {
+      slideToext = ' slide slide'+button.slide;
+    }
+    
+    html = '<div class="col-xs-' + width + (buttonIsClickable(button) ? ' hover ' : ' ') +  ' transbg buttons-' + key + slideToext +'" data-id="buttons.' + key + '">';
 
     if (button.hasOwnProperty('isimage')) {
       var img='';
@@ -882,16 +897,25 @@ function loadFrame(f, frame) {
 }
 
 function checkForceRefresh(m_instance, url){
-//adds current time to an url if forcerefresh is set
-  if(typeof(m_instance.forcerefresh)!=='undefined' && m_instance.forcerefresh) {
-    var sep = '?';
-    if (url.indexOf("?") != -1) var sep = '&';
-
-    if (url.indexOf("?") != -1) {
-        var newurl = url.split(sep + 't=');
-        url = newurl;
-    }
-    url += sep + 't=' + (new Date()).getTime();
+//adds current time to an url if forcerefresh is set to 1 or true
+//calls nocache.php in case forcerefresh is 2.
+  if(typeof(m_instance.forcerefresh)!=='undefined') {
+    
+    switch (m_instance.forcerefresh) {
+      case true:
+      case 1:
+        var sep = '?';
+        if (url.indexOf("?") != -1) {
+            sep = '&';
+            var newurl = url.split(sep + 't=');
+            url = newurl;
+        }
+        url += sep + 't=' + (new Date()).getTime();
+        break;
+      case 2:
+        url = settings['dashticz_php_path']+'nocache.php?'+url;
+        break;
+      }
   }
   return url;  
 }
@@ -1992,6 +2016,7 @@ function getThermostatBlock(device, idx) {
     $('div.block_' + idx + '_1').html(this.html);
 
     this.html = '';
+/*
     this.html += '<ul class="col-thermostat input-groupBtn">';
     this.html += '<li class="up"><a href="javascript:void(0)" class="btn btn-number plus" data-type="plus" data-field="quant[' + device['idx'] + ']" onclick="this.blur();">';
     this.html += '<em class="fas fa-plus fa-small fa-thermostat"></em>';
@@ -2000,9 +2025,18 @@ function getThermostatBlock(device, idx) {
     this.html += '<em class="fas fa-minus fa-small fa-thermostat"></em>';
     this.html += '</a></li>';
     this.html += '</ul>';
-
+*/
+    this.html += '<div class="col-button1">';
+    this.html += '<div class="up"><a href="javascript:void(0)" class="btn btn-number plus" data-type="plus" data-field="quant[' + device['idx'] + ']" onclick="this.blur();">';
+    this.html += '<em class="fas fa-plus fa-small fa-thermostat"></em>';
+    this.html += '</a></div>';
+    this.html += '<div class="down"><a href="javascript:void(0)" class="btn btn-number min" data-type="minus" data-field="quant[' + device['idx'] + ']" onclick="this.blur();">';
+    this.html += '<em class="fas fa-minus fa-small fa-thermostat"></em>';
+    this.html += '</a></div>';
+    this.html += '</div>';
+    
     this.html += iconORimage(idx + '_2', '', 'heating.png', 'on icon iconheating', '', '2');
-    this.html += '<div class="col-xs-8 col-data">';
+    this.html += '<div class="col-xs-8 col-data right1col">';
 
     this.title = number_format(device['Data'], 1) + _TEMP_SYMBOL;
     this.value = device['Name'];
@@ -2127,17 +2161,32 @@ function getDimmerBlock(device, idx, buttonimg) {
 function getBlindsBlock(device, idx, withPercentage) {
     if (typeof(withPercentage) === 'undefined') withPercentage = false;
     this.html = '';
-    this.html += '<div class="col-xs-4 col-icon">';
+
+    var hidestop = false;
+    var data_class = 'col-data blinds';
+    var button_class;
+    if (typeof(blocks[idx]) == 'undefined' || typeof(blocks[idx]['hide_stop']) == 'undefined' || blocks[idx]['hide_stop'] === false) {
+      data_class += ' right2col';
+      button_class = 'col-button2';
+
+//        this.html += '<div class="col-button">';
+    } else {
+        hidestop = true;
+        data_class += ' right1col';
+        button_class = 'col-button1';
+  //      this.html += '<div class="col-button hidestop">';
+    }
+
+
     if(device['Status'] === 'Closed') this.html += iconORimage(idx, '', 'blinds_closed.png', 'off icon', '', 2);
     else this.html += iconORimage(idx, '', 'blinds_open.png', 'on icon', '', 2);
-    this.html += '</div>';
-    this.html += '<div class="col-xs-8 col-data">';
+    this.html += '<div class="' + data_class + '">';
     this.title = device['Name'];
     if (withPercentage) {
         if (typeof(blocks[idx]) == 'undefined' || typeof(blocks[idx]['hide_data']) == 'undefined' || blocks[idx]['hide_data'] == false) {
             this.title += ' ' + device['Level'] + '%';
         }
-        this.value = '<div class="slider slider' + device['idx'] + '" data-light="' + device['idx'] + '"></div>';
+        this.value = '<div class="slider slider' + device['idx'] + '  swiper-no-swiping" data-light="' + device['idx'] + '"></div>';
     } else {
         if (device['Status'] === 'Closed') this.value = '<span class="state">' + language.switches.state_closed + '</span>';
         else this.value = '<span class="state">' + language.switches.state_open + '</span>';
@@ -2154,6 +2203,7 @@ function getBlindsBlock(device, idx, withPercentage) {
     this.html += this.value;
     this.html += '</div>';
 
+/*
     if (typeof(blocks[idx]) == 'undefined' || typeof(blocks[idx]['hide_stop']) == 'undefined' || blocks[idx]['hide_stop'] === false) {
         var hidestop = false;
         this.html += '<ul class="input-groupBtn input-chevron">';
@@ -2183,6 +2233,30 @@ function getBlindsBlock(device, idx, withPercentage) {
     }
 
     this.html += '</ul>';
+*/
+  this.html += '<div class="' + button_class + '">';
+
+    this.upAction = 'Off';
+    this.downAction = 'On';
+    if (device['SwitchType'].toLowerCase().indexOf('inverted') >= 0) {
+        this.upAction = 'On';
+        this.downAction = 'Off';
+    }
+    this.html += '<div class="up"><a href="javascript:void(0)" class="btn btn-number plus" onclick="switchBlinds(' + device['idx'] + ',\'' + this.upAction + '\');">';
+    this.html += '<em class="fas fa-chevron-up fa-small"></em>';
+    this.html += '</a></div>';
+
+    this.html += '<div class="down"><a href="javascript:void(0)" class="btn btn-number min" onclick="switchBlinds(' + device['idx'] + ',\'' + this.downAction + '\');">';
+    this.html += '<em class="fas fa-chevron-down fa-small"></em>';
+    this.html += '</a></div>';
+
+    if (!hidestop) {
+        this.html += '<div class="stop"><a href="javascript:void(0)" class="btn btn-number stop" onclick="switchBlinds(' + device['idx'] + ',\'Stop\');">';
+        this.html += 'STOP';
+        this.html += '</a></div>';
+    }
+
+    this.html += '</div>';
 
     $('div.block_' + idx).html(this.html);
 
